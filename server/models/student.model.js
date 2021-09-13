@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 
-    // Students.associate = (models) => {
-    //     Students.hasMany(models.Courses, {
-    //         onDelete: 'cascade'
-    //     })
-    // }
+    Students.associate = (models) => {
+        Students.hasMany(models.assign_courses, {
+            onDelete: "cascade"
+        })
+    }
 
     return Students
 }

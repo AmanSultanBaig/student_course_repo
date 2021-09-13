@@ -5,5 +5,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
     })
+
+    Courses.associate = (models) => {
+        Courses.hasMany(models.assign_courses, {
+            onDelete: "cascade"
+        })
+    }
+
     return Courses
 }
