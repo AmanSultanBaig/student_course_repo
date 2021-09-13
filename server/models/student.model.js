@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Students.associate = (models) => {
-        Students.hasMany(models.assign_courses, {
-            onDelete: "cascade"
+        Students.belongsTo(models.courses, {
+            foreignKey: {
+                allowNull: false,
+            }
         })
     }
 

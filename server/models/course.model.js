@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Courses.associate = (models) => {
-        Courses.hasMany(models.assign_courses, {
-            onDelete: "cascade"
+        Courses.hasMany(models.students, {
+            onDelete: "cascade",
         })
     }
 

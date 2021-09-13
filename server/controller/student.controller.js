@@ -1,7 +1,13 @@
 const { students } = require("../models")
+const { courses } = require("../models")
 
 const getStudent = (req, res) => {
-    students.findAll().then(result => {
+    students.findAll({
+        include: {
+            model: courses,
+            as: 'course'
+        }
+    }).then(result => {
         res.status(200).json({
             status: 'success',
             message: "Student Fetched Successfully",
