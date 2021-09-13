@@ -1,10 +1,10 @@
-const { students } = require("../models")
+const { courses } = require("../models")
 
-const getStudent = (req, res) => {
-    students.findAll().then(result => {
+const getCourse = (req, res) => {
+    courses.findAll().then(result => {
         res.status(200).json({
             status: 'success',
-            message: "Student Fetched Successfully",
+            message: "Course Fetched Successfully",
             data: result
         })
     }).catch(e => {
@@ -15,12 +15,12 @@ const getStudent = (req, res) => {
     })
 }
 
-const addStudent = (req, res) => {
+const addCourse = (req, res) => {
     const data = req.body;
-    students.create(data).then(result => {
+    courses.create(data).then(result => {
         res.status(200).json({
             status: 'success',
-            message: "Student Added Successfully",
+            message: "Course Added Successfully",
             data: result
         })
     }).catch(e => {
@@ -32,6 +32,6 @@ const addStudent = (req, res) => {
 }
 
 module.exports = {
-    addStudent,
-    getStudent
+    addCourse,
+    getCourse
 }
