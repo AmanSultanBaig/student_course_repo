@@ -9,7 +9,7 @@ const getStudent = (req, res) => {
         })
     }).catch(e => {
         res.status(400).json({
-            status: 'success',
+            status: 'failed',
             message: e.message,
         })
     })
@@ -25,7 +25,38 @@ const addStudent = (req, res) => {
         })
     }).catch(e => {
         res.status(400).json({
+            status: 'failed',
+            message: e.message,
+        })
+    })
+}
+
+const editStudent = (req, res) => {
+    students.update(req.body, { where: { id: req.params.id } }).then(result => {
+        res.status(200).json({
             status: 'success',
+            message: "Student Updated Successfully",
+        })
+    }).catch(e => {
+        res.status(400).json({
+            status: 'failed',
+            message: e.message,
+        })
+    })
+}
+
+const removeStudent = (req, res) => {
+    const id = req.params.id;
+    students.destroy({
+        where: { id: id }
+    }).then(result => {
+        res.status(200).json({
+            status: 'success',
+            message: "Student Deleted Successfully",
+        })
+    }).catch(e => {
+        res.status(400).json({
+            status: 'failed',
             message: e.message,
         })
     })
@@ -33,5 +64,7 @@ const addStudent = (req, res) => {
 
 module.exports = {
     addStudent,
-    getStudent
+    getStudent,
+    editStudent,
+    removeStudent,
 }

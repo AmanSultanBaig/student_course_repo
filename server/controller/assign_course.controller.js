@@ -10,7 +10,7 @@ const assignCourseToUser = (req, res) => {
         })
     }).catch(e => {
         res.status(400).json({
-            status: 'success',
+            status: 'failed',
             message: e.message,
         })
     })

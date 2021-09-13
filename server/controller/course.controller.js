@@ -9,7 +9,7 @@ const getCourse = (req, res) => {
         })
     }).catch(e => {
         res.status(400).json({
-            status: 'success',
+            status: 'failed',
             message: e.message,
         })
     })
@@ -19,7 +19,7 @@ const addCourse = (req, res) => {
     const data = req.body;
     courses.create(data).then(result => {
         res.status(200).json({
-            status: 'success',
+            status: 'failed',
             message: "Course Added Successfully",
             data: result
         })
