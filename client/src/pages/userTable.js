@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Popconfirm, message } from 'antd';
-import { REMOVE } from '../config/instance'
+import { REMOVE, GET } from '../config/instance'
 
-function userTable() {
+function UserTable() {
+
+    const [userList, setUserList] = useState([])
 
     function confirm(id) {
         deleteUser(id)
@@ -16,9 +18,20 @@ function userTable() {
         REMOVE(`delete_student/${id}`).then(result => {
             if (result.status == 200) {
                 message.success("User Deleted Successfully")
+                getUsers()
             }
         }).catch(e => console.log(e))
     }
+
+    const getUsers = () => {
+        GET("/get_students").then(result => {
+            setUserList(result.data.data)
+        }).catch(e => console.log(e))
+    }
+
+    useEffect(() => {
+        getUsers()
+    }, [])
 
     let userData = [
         {
@@ -73,14 +86,14 @@ function userTable() {
                         </thead>
                         <tbody>
                             {
-                                userData.map((item, i) => (
+                                userList.map((item, i) => (
                                     <tr key={i}>
                                         <th scope="row">{item.id}</th>
                                         <th>{item.name}</th>
                                         <th>{item.email}</th>
-                                        <th>{item.contact}</th>
+                                        <th>{item.contact_no}</th>
                                         <th>{item.class}</th>
-                                        <th>{item.courses.join(",")}</th>
+                                        <th>{item.courses}</th>
                                         <th>
                                             <a href="#">Edit</a>
                                             &nbsp;&nbsp;
@@ -105,4 +118,4 @@ function userTable() {
     )
 }
 
-export default userTable
+export default UserTable
