@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Popconfirm, message } from 'antd';
 import { REMOVE, GET } from '../config/instance'
+import { Input } from 'antd';
 
 import AddUser from './addUser'
 
 function UserTable() {
 
     const [userList, setUserList] = useState([])
+    const [search, setSearch] = useState("")
     const [editStudentObject, setEditStudentObject] = useState({})
 
     function confirm(id) {
@@ -46,6 +48,7 @@ function UserTable() {
 
             <div className="row">
                 <div className="col-md-12  mb-5">
+                    <Input style={{ width: "200px", margin: '1rem' }} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="search..." />
                     <table className="table">
                         <thead>
                             <tr>
@@ -60,7 +63,12 @@ function UserTable() {
                         </thead>
                         <tbody>
                             {
-                                userList.map((item, i) => (
+                                userList.filter(val => {
+                                    if (val == "") return val;
+                                    else if (val.class.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())) {
+                                        return val
+                                    }
+                                }).map((item, i) => (
                                     <tr key={i}>
                                         <th scope="row">{item.id}</th>
                                         <th>{item.name}</th>

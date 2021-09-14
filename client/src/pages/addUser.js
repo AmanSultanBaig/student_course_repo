@@ -5,7 +5,6 @@ import { GET, CREATE, UPDATE } from '../config/instance'
 const { Option } = Select;
 
 function AddUser({ editObject }) {
-    console.log(editObject)
     const [courseList, setCourseList] = useState([]);
 
     const [name, setName] = useState("")
