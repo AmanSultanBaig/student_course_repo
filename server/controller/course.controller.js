@@ -1,7 +1,9 @@
-const { courses } = require("../models")
+const db = require("../models");
+const Student = db.student;
+const Course = db.course;
 
 const getCourse = (req, res) => {
-    courses.findAll().then(result => {
+    Course.findAll().then(result => {
         res.status(200).json({
             status: 'success',
             message: "Course Fetched Successfully",
@@ -17,7 +19,7 @@ const getCourse = (req, res) => {
 
 const addCourse = (req, res) => {
     const data = req.body;
-    courses.create(data).then(result => {
+    Course.create(data).then(result => {
         res.status(200).json({
             status: 'failed',
             message: "Course Added Successfully",
