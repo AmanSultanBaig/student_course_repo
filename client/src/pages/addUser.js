@@ -10,6 +10,11 @@ function AddUser() {
     const [targetKeys, setTargetKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
 
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [contact, setContact] = useState("")
+    const [Class, setClass] = useState("1")
+
     const onChange = (nextTargetKeys, direction, moveKeys) => {
         console.log('targetKeys:', nextTargetKeys);
         console.log('direction:', direction);
@@ -29,39 +34,54 @@ function AddUser() {
     };
 
     function handleChange(value) {
-        console.log(`selected ${value}`);
+        setClass(value)
     }
 
     useEffect(() => {
         GET("/get_courses").then(result => {
             setCourseList(result.data.data)
-            let indexs = result.data.data.map((item, i) => i)
-            setTargetKeys(indexs)
         }).catch(e => console.log(e))
     }, [])
+
+    const submit = () => {
+        let body = {
+            name,
+            email,
+            Class,
+            contact
+        }
+        console.log(body)
+    }
+
+    const reset = () => {
+        setClass("1")
+        setName("")
+        setEmail("")
+        setContact("")
+    }
 
     return (
         <div className="container mb-5">
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4">
-                    <Input placeholder="Name" />
+                    <Input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
                 </div>
             </div>
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4" >
-                    <Input placeholder="Email" />
+                    <Input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
                 </div>
             </div>
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4" >
-                    <Input placeholder="Contact" />
+                    <Input placeholder="Contact" value={contact} onChange={e => setContact(e.target.value)} />
                 </div>
             </div>
-           
+
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4">
-                    <Select defaultValue="1" style={{ width: '100%' }} onChange={handleChange}>
-                        <Option value="1">1</Option>
+                    <Select value={Class} style={{ width: '100%' }} onChange={handleChange}>
+                        <Option selected value="1">1</Option>
                         <Option value="2">2</Option>
                         <Option value="3">3</Option>
                         <Option value="4">4</Option>
@@ -88,8 +108,8 @@ function AddUser() {
                 />
             </div>
             <div style={{ display: "flex", justifyContent: "center" }} className="mt-4">
-                <Button type="primary">Submit</Button> &nbsp;&nbsp;
-                <Button type="warning">Reset</Button>
+                <Button type="primary" onClick={submit}>Submit</Button> &nbsp;&nbsp;
+                <Button type="warning" onClick={reset}>Reset</Button>
             </div>
         </div>
     )
