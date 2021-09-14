@@ -20,6 +20,7 @@ function AddUser() {
     const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
         console.log('sourceSelectedKeys:', sourceSelectedKeys);
         console.log('targetSelectedKeys:', targetSelectedKeys);
+        setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
     };
 
     const onScroll = (direction, e) => {
@@ -34,8 +35,8 @@ function AddUser() {
     useEffect(() => {
         GET("/get_courses").then(result => {
             setCourseList(result.data.data)
-           let indexs = result.data.data.map((item,i) => i)
-           setTargetKeys(indexs)
+            let indexs = result.data.data.map((item, i) => i)
+            setTargetKeys(indexs)
         }).catch(e => console.log(e))
     }, [])
 

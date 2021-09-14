@@ -1,14 +1,23 @@
 import React from 'react'
 import { Popconfirm, message } from 'antd';
+import { REMOVE } from '../config/instance'
 
 function userTable() {
 
-    function confirm(e) {
-        console.log(e);
+    function confirm(id) {
+        deleteUser(id)
     }
 
     function cancel(e) {
         console.log(e);
+    }
+
+    const deleteUser = id => {
+        REMOVE(`delete_student/${id}`).then(result => {
+            if (result.status == 200) {
+                message.success("User Deleted Successfully")
+            }
+        }).catch(e => console.log(e))
     }
 
     let userData = [
@@ -47,9 +56,9 @@ function userTable() {
     ]
 
     return (
-        <div className="container">
+        <div className="container mb-5">
             <div className="row">
-                <div className="col-md-12">
+                <div className="col-md-12  mb-5">
                     <table className="table">
                         <thead>
                             <tr>
@@ -77,7 +86,7 @@ function userTable() {
                                             &nbsp;&nbsp;
                                             <Popconfirm
                                                 title="Are you sure to delete this task?"
-                                                onConfirm={confirm}
+                                                onConfirm={() => confirm(item.id)}
                                                 onCancel={cancel}
                                                 okText="Yes"
                                                 cancelText="No">
