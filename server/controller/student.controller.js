@@ -1,19 +1,11 @@
 const db = require("../models");
 const Student = db.student;
 const Course = db.course;
+const Selected_Course = db.selected_course
 
 const getStudent = (req, res) => {
-    Student.findAll({
-        include: [
-            {
-                model: Course,
-                as: "courses",
-                attributes: [],
-                through: {
-                    attributes: [],
-                }
-            },
-        ],
+    Selected_Course.findAll({
+        // include: Student,
     }).then(result => {
         res.status(200).json({
             status: 'success',
@@ -30,18 +22,24 @@ const getStudent = (req, res) => {
 
 const addStudent = (req, res) => {
     const data = req.body;
-    Student.create(data).then(result => {
-        res.status(200).json({
-            status: 'success',
-            message: "Student Added Successfully",
-            data: result
+    let courseBulk = []
+    Student.create(data)
+        .then(result => {
+            data.courses.map(course => {
+                courseBulk.push({ course_id: course, student_id: result.id })
+            })
+            Selected_Course.bulkCreate(courseBulk).then(success => console.log(success))
+            res.status(200).json({
+                status: 'success',
+                message: "Student Added Successfully",
+                data: result
+            })
+        }).catch(e => {
+            res.status(400).json({
+                status: 'failed',
+                message: e.message,
+            })
         })
-    }).catch(e => {
-        res.status(400).json({
-            status: 'failed',
-            message: e.message,
-        })
-    })
 }
 
 const editStudent = (req, res) => {

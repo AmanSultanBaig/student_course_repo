@@ -1,6 +1,11 @@
 import React from 'react'
 
 function userTable() {
+
+    let userData = [
+        {id: 1,name: "User1", email: "user1@gmail.com", contact: "12343233", class: "1", courses: ["Eng", "Math"]}
+    ]
+
     return (
         <div className="container">
             <div className="row">
@@ -9,9 +14,9 @@ function userTable() {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Contact</th>
                             </tr>
                         </thead>
                         <tbody>
