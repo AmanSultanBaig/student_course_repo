@@ -1,40 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Button, Input, Transfer } from 'antd';
-import { GET } from '../config/instance'
+import { GET, CREATE } from '../config/instance'
 
 const { Option } = Select;
 
 function AddUser() {
 
     const [courseList, setCourseList] = useState([]);
-    const [targetKeys, setTargetKeys] = useState([]);
-    const [selectedKeys, setSelectedKeys] = useState([]);
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [contact, setContact] = useState("")
     const [Class, setClass] = useState("1")
-
-    const onChange = (nextTargetKeys, direction, moveKeys) => {
-        console.log('targetKeys:', nextTargetKeys);
-        console.log('direction:', direction);
-        console.log('moveKeys:', moveKeys);
-        setTargetKeys(nextTargetKeys);
-    };
-
-    const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-        console.log('sourceSelectedKeys:', sourceSelectedKeys);
-        console.log('targetSelectedKeys:', targetSelectedKeys);
-        setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-    };
-
-    const onScroll = (direction, e) => {
-        console.log('direction:', direction);
-        console.log('target:', e.target);
-    };
+    const [selectedCourses, setSelectedCourses] = useState([])
 
     function handleChange(value) {
         setClass(value)
+    }
+
+    const handleChangeOfCourse = (value) => {
+        setSelectedCourses(value)
     }
 
     useEffect(() => {
@@ -47,10 +32,15 @@ function AddUser() {
         let body = {
             name,
             email,
-            Class,
-            contact
+            class: Class,
+            contact_no: contact,
+            courses: selectedCourses
         }
-        console.log(body)
+        CREATE('/add_student', body).then(result => {
+            if(result.status === 200) {
+                window.location.reload()
+            }
+        }).catch(e => console.log(e))
     }
 
     const reset = () => {
@@ -58,6 +48,7 @@ function AddUser() {
         setName("")
         setEmail("")
         setContact("")
+        setSelectedCourses([])
     }
 
     return (
@@ -95,18 +86,23 @@ function AddUser() {
                 </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center" }} className="mt-5">
-                <Transfer
-                    dataSource={courseList}
-                    titles={['All Courses', 'Selected']}
-                    targetKeys={targetKeys}
-                    selectedKeys={selectedKeys}
-                    onChange={onChange}
-                    onSelectChange={onSelectChange}
-                    onScroll={onScroll}
-                    render={item => item.course_name}
-                />
+            <div style={{ display: "flex", justifyContent: "center" }} className="mt-4">
+                <Select
+                    mode="tags"
+                    size={"large"}
+                    placeholder="Please select"
+                    onChange={handleChangeOfCourse}
+                    style={{ width: '100%' }}
+                >
+                    {
+                        courseList.map((course, i) => (
+                            <Option key={course.id}>{course.course_name}</Option>
+                        ))
+                    }
+                </Select>
+
             </div>
+
             <div style={{ display: "flex", justifyContent: "center" }} className="mt-4">
                 <Button type="primary" onClick={submit}>Submit</Button> &nbsp;&nbsp;
                 <Button type="warning" onClick={reset}>Reset</Button>
