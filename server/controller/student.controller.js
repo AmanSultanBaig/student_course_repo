@@ -1,12 +1,19 @@
-const { students } = require("../models")
-const { courses } = require("../models")
+const db = require("../models");
+const Student = db.student;
+const Course = db.course;
 
 const getStudent = (req, res) => {
-    students.findAll({
-        include: {
-            model: courses,
-            as: 'course'
-        }
+    Student.findAll({
+        include: [
+            {
+                model: Course,
+                as: "courses",
+                attributes: [],
+                through: {
+                    attributes: [],
+                }
+            },
+        ],
     }).then(result => {
         res.status(200).json({
             status: 'success',
@@ -23,7 +30,7 @@ const getStudent = (req, res) => {
 
 const addStudent = (req, res) => {
     const data = req.body;
-    students.create(data).then(result => {
+    Student.create(data).then(result => {
         res.status(200).json({
             status: 'success',
             message: "Student Added Successfully",
@@ -38,7 +45,7 @@ const addStudent = (req, res) => {
 }
 
 const editStudent = (req, res) => {
-    students.update(req.body, { where: { id: req.params.id } }).then(result => {
+    Student.update(req.body, { where: { id: req.params.id } }).then(result => {
         res.status(200).json({
             status: 'success',
             message: "Student Updated Successfully",
@@ -53,7 +60,7 @@ const editStudent = (req, res) => {
 
 const removeStudent = (req, res) => {
     const id = req.params.id;
-    students.destroy({
+    Student.destroy({
         where: { id: id }
     }).then(result => {
         res.status(200).json({

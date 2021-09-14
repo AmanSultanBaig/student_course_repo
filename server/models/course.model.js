@@ -1,16 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-    const Courses = sequelize.define("courses", {
-        course: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-    })
-
-    Courses.associate = (models) => {
-        Courses.hasMany(models.students, {
-            onDelete: "cascade",
-        })
-    }
-
-    return Courses
-}
+    const Course = sequelize.define("course", {
+      course_name: {
+        type: DataTypes.STRING,
+      },
+    });
+  
+    return Course;
+  };

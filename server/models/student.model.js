@@ -1,26 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-    const Students = sequelize.define("students", {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        class: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        contact_no: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    })
-
-    Students.associate = (models) => {
-        Students.belongsTo(models.courses, {
-            foreignKey: {
-                allowNull: false,
-            }
-        })
-    }
-
-    return Students
-}
+    const Student = sequelize.define("student", {
+      name: {
+        type: DataTypes.STRING,
+      },
+      email: {
+        type: DataTypes.STRING,
+      },
+      class: {
+        type: DataTypes.STRING,
+      },
+      contact_no: {
+        type: DataTypes.STRING,
+      },
+    });
+  
+    return Student;
+  };

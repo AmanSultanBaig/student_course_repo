@@ -34,4 +34,19 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.student = require("./student.model")(sequelize, Sequelize);
+db.course = require("./course.model")(sequelize, Sequelize);
+
+db.student.belongsToMany(db.course, {
+  through: "selected_course",
+  as: "courses",
+  foreignKey: "courses_id",
+});
+
+db.course.belongsToMany(db.student, {
+  through: "selected_course",
+  as: "students",
+  foreignKey: "students_id",
+});
+
 module.exports = db;
