@@ -33,41 +33,6 @@ function UserTable() {
         getUsers()
     }, [])
 
-    let userData = [
-        {
-            id: 1,
-            name: "User1",
-            email: "user1@gmail.com",
-            contact: "12343233",
-            class: "1",
-            courses: ["Eng", "Math"]
-        },
-        {
-            id: 1,
-            name: "User1",
-            email: "user1@gmail.com",
-            contact: "12343233",
-            class: "1",
-            courses: ["Eng", "Math"]
-        },
-        {
-            id: 1,
-            name: "User1",
-            email: "user1@gmail.com",
-            contact: "12343233",
-            class: "1",
-            courses: ["Eng", "Math"]
-        },
-        {
-            id: 1,
-            name: "User1",
-            email: "user1@gmail.com",
-            contact: "12343233",
-            class: "1",
-            courses: ["Eng", "Math"]
-        },
-    ]
-
     return (
         <div className="container mb-5">
             <div className="row">
