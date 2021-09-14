@@ -44,14 +44,20 @@ function AddUser() {
         <div className="container mb-5">
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4">
-                    <Input placeholder="Basic usage" />
+                    <Input placeholder="Name" />
                 </div>
             </div>
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4" >
-                    <Input placeholder="Basic usage" />
+                    <Input placeholder="Email" />
                 </div>
             </div>
+            <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
+                <div className="col-md-4" >
+                    <Input placeholder="Contact" />
+                </div>
+            </div>
+           
             <div className="row mt-4" style={{ display: "flex", justifyContent: "center" }}>
                 <div className="col-md-4">
                     <Select defaultValue="1" style={{ width: '100%' }} onChange={handleChange}>
