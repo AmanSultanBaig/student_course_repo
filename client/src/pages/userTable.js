@@ -50,7 +50,7 @@ function userTable() {
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -64,8 +64,8 @@ function userTable() {
                         </thead>
                         <tbody>
                             {
-                                userData.map(item => (
-                                    <tr>
+                                userData.map((item, i) => (
+                                    <tr key={i}>
                                         <th scope="row">{item.id}</th>
                                         <th>{item.name}</th>
                                         <th>{item.email}</th>

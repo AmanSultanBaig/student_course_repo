@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Button, Input, Transfer } from 'antd';
+import { GET } from '../config/instance'
 
 const { Option } = Select;
 
-const mockData = [];
-for (let i = 0; i < 20; i++) {
-    mockData.push({
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-    });
-}
-
 function AddUser() {
+
+    const [courseList, setCourseList] = useState([]);
     const [targetKeys, setTargetKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
 
@@ -26,7 +20,6 @@ function AddUser() {
     const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
         console.log('sourceSelectedKeys:', sourceSelectedKeys);
         console.log('targetSelectedKeys:', targetSelectedKeys);
-        setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
     };
 
     const onScroll = (direction, e) => {
@@ -37,6 +30,14 @@ function AddUser() {
     function handleChange(value) {
         console.log(`selected ${value}`);
     }
+
+    useEffect(() => {
+        GET("/get_courses").then(result => {
+            setCourseList(result.data.data)
+           let indexs = result.data.data.map((item,i) => i)
+           setTargetKeys(indexs)
+        }).catch(e => console.log(e))
+    }, [])
 
     return (
         <div className="container mb-5">
@@ -69,14 +70,14 @@ function AddUser() {
 
             <div style={{ display: "flex", justifyContent: "center" }} className="mt-5">
                 <Transfer
-                    dataSource={mockData}
+                    dataSource={courseList}
                     titles={['All Courses', 'Selected']}
                     targetKeys={targetKeys}
                     selectedKeys={selectedKeys}
                     onChange={onChange}
                     onSelectChange={onSelectChange}
                     onScroll={onScroll}
-                    render={item => item.title}
+                    render={item => item.course_name}
                 />
             </div>
             <div style={{ display: "flex", justifyContent: "center" }} className="mt-4">
