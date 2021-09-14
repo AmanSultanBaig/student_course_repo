@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Popconfirm, message } from 'antd';
 import { REMOVE, GET } from '../config/instance'
 
+import AddUser from './addUser'
+
 function UserTable() {
 
     const [userList, setUserList] = useState([])
+    const [editStudentObject, setEditStudentObject] = useState({})
 
     function confirm(id) {
         deleteUser(id)
@@ -33,8 +36,14 @@ function UserTable() {
         getUsers()
     }, [])
 
+    const editStudent = (item) => {
+        setEditStudentObject(item)
+    }
+
     return (
         <div className="container mb-5">
+            <AddUser editObject={editStudentObject} />
+
             <div className="row">
                 <div className="col-md-12  mb-5">
                     <table className="table">
@@ -60,7 +69,7 @@ function UserTable() {
                                         <th>{item.class}</th>
                                         <th>{item.courses}</th>
                                         <th>
-                                            <a href="#">Edit</a>
+                                            <a href="javascript:void()" onClick={() => editStudent(item)}>Edit</a>
                                             &nbsp;&nbsp;
                                             <Popconfirm
                                                 title="Are you sure to delete this task?"

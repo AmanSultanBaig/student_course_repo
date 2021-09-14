@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Button, Input, Transfer } from 'antd';
-import { GET, CREATE } from '../config/instance'
+import { GET, CREATE, UPDATE } from '../config/instance'
 
 const { Option } = Select;
 
-function AddUser() {
-
+function AddUser({ editObject }) {
+    console.log(editObject)
     const [courseList, setCourseList] = useState([]);
 
     const [name, setName] = useState("")
@@ -23,10 +23,16 @@ function AddUser() {
     }
 
     useEffect(() => {
+        setName(editObject.name)
+        setEmail(editObject.email)
+        setContact(editObject.contact_no)
+        setClass(editObject.class)
+        // setSelectedCourses(editObject.courses)
+
         GET("/get_courses").then(result => {
             setCourseList(result.data.data)
         }).catch(e => console.log(e))
-    }, [])
+    }, [editObject])
 
     const submit = () => {
         let body = {
@@ -36,11 +42,19 @@ function AddUser() {
             contact_no: contact,
             courses: selectedCourses
         }
-        CREATE('/add_student', body).then(result => {
-            if(result.status === 200) {
-                window.location.reload()
-            }
-        }).catch(e => console.log(e))
+        if (editObject) {
+            UPDATE(`/update_student/${editObject.id}`, body).then(result => {
+                if (result.status === 200) {
+                    window.location.reload()
+                }
+            }).catch(e => console.log(e))
+        } else {
+            CREATE('/add_student', body).then(result => {
+                if (result.status === 200) {
+                    window.location.reload()
+                }
+            }).catch(e => console.log(e))
+        }
     }
 
     const reset = () => {
