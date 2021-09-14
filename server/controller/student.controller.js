@@ -1,11 +1,13 @@
 const db = require("../models");
+const sequelize = require('sequelize')
 const Student = db.student;
 const Course = db.course;
 const Selected_Course = db.selected_course
 
 const getStudent = (req, res) => {
-    Selected_Course.findAll({
-        // include: Student,
+    Student.findAll({
+        // include: [{ model: Selected_Course,  }],
+        attributes: ["id", "name", "email", [(sequelize.literal('(SELECT GROUP_CONCAT(courses.course_name) FROM students_DB.selected_courses JOIN courses ON courses.id=course_id where student_id = student.id)')), 'courses']],
     }).then(result => {
         res.status(200).json({
             status: 'success',

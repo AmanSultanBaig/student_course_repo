@@ -1,5 +1,5 @@
-const { student_model } = require("./student.model")
-// const { course_model } = require("./course.model")
+const student_model = require("./student.model")
+const course_model = require("./course.model")
 
 module.exports = (sequelize, DataTypes) => {
     const SelectedCourse = sequelize.define("selected_course", {
@@ -10,33 +10,31 @@ module.exports = (sequelize, DataTypes) => {
         },
         course_id: {
             type: DataTypes.INTEGER,
+            references: {
+                model: 'courses',
+                key: 'id'
+            },
         },
         student_id: {
             type: DataTypes.INTEGER,
+            references: {
+                model: 'students',
+                key: 'id'
+            },
         },
     });
 
-    // SelectedCourse.hasOne(student_model, {
-    //     foreignKey: 'student_id'
-    //   });
-    //   student_model.belongsTo(SelectedCourse);
+    SelectedCourse.belongsTo(student_model(sequelize, DataTypes), {
+        foreignKey: "student_id",
+        onDelete: "cascade",
+    });
+    SelectedCourse.belongsTo(course_model(sequelize, DataTypes), {
+        foreignKey: "course_id",
+        onDelete: "cascade",
+    });
 
-    // SelectedCourse.belongsTo(course_model, {
-    //     foreignKey: "course_id",
-    // });
-    // SelectedCourse.belongsTo(student_model, {
-    //     foreignKey: "student_id",
-    //     // onDelete: "RESTRICT",
-    // });
-
-    // SelectedCourse.associate = (models) => {
-    //     SelectedCourse.belongsTo(models.Student, {
-    //         foreignKey: "student_id"
-    //     });
-    // }
-
-    // student_model.hasMany(SelectedCourse);
-    // course_model.hasMany(SelectedCourse);
+    student_model(sequelize, DataTypes).hasMany(SelectedCourse);
+    course_model(sequelize, DataTypes).hasMany(SelectedCourse);
 
     return SelectedCourse;
 };
